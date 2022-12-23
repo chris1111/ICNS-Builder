@@ -14,76 +14,27 @@
 # Vars
 apptitle="ICNS Builder"
 version="1.0"
-# Set Icon directory and file 
-date=`date -j +%Y%m%d-%H%M%S`
-TempDir="/Private/tmp/PNG"
-ICON_NAME="Build.icns"
-ZIPIN="/Private/tmp/Build.icns"
-ZIPOUT="$HOME/Desktop/Build.icns.zip"
-BUILDICON_NAME="/Private/tmp/tempicon.icns"
-ICONS_DIR="/Private/tmp/tempicon.iconset"
-# remove the temporary directory if exist
-rm -rf $ICONS_DIR
-rm -rf $TempDir
-rm -rf $ZIPIN
-Sleep 1
-mkdir -p "${TempDir}"
-
+# Set Icon directory and file
 for files in "$@" ;do
-Sleep 1
-cp -R "$@" "${TempDir}"
-echo "Converting "$@" to $ICON_NAME..."
-Sleep 1
-# Create an icon directory to work in
-rm -rf $ICONS_DIR
-Sleep 1
+echo "Converting "$@" to ICON file "
+Sleep 3
+IFS='.' read -ra ADDR <<< "$1"
+ICONS_DIR=${ADDR[0]}.iconset
 mkdir $ICONS_DIR
 echo "Create all other images sizes "
-echo "Prepare directory for:"
-for file in "${TempDir}"/*;
-do
-echo "${file##*/}"
-Sleep 1
-done
-
-# Create all other images sizes
-sips -z 1024 1024 "${TempDir}"/*.png --out "$ICONS_DIR/icon_512x512@2x.png"
-sips -z 512  512  "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_512x512.png"
-sips -z 512  512  "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_256x256@2x.png"
-sips -z 256  256  "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_256x256x.png"
-sips -z 256  256  "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_128x128@2x.png"
-sips -z 128  128  "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_128x128.png"
-sips -z 64   64   "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_64x64.png"
-sips -z 32   32   "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_32x32.png"
-sips -z 32   32   "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_16x16@2x.png"
-sips -z 16   16   "$ICONS_DIR/icon_512x512@2x.png" --out "$ICONS_DIR/icon_16x16.png"
-echo "Create the icns file "
-# Create the icns file
+Sleep 2
+sips -z 16 16     $1 --out $ICONS_DIR/icon_16x16.png
+sips -z 32 32     $1 --out $ICONS_DIR/icon_16x16@2x.png
+sips -z 32 32     $1 --out $ICONS_DIR/icon_32x32.png
+sips -z 64 64     $1 --out $ICONS_DIR/icon_32x32@2x.png
+sips -z 128 128   $1 --out $ICONS_DIR/icon_128x128.png
+sips -z 256 256   $1 --out $ICONS_DIR/icon_128x128@2x.png
+sips -z 256 256   $1 --out $ICONS_DIR/icon_256x256.png
+sips -z 512 512   $1 --out $ICONS_DIR/icon_256x256@2x.png
+sips -z 512 512   $1 --out $ICONS_DIR/icon_512x512.png
+cp $1 $ICONS_DIR/icon_512x512@2x.png
 iconutil -c icns $ICONS_DIR
-# Check for zip if exist ➤ Backup
-Sleep 1
-if [ -f "$ZIPOUT" ];then
-        echo "Unzip file"
-        mkdir -p "$HOME/Desktop/Backup_Icon"
-        unzip -d "$HOME/Desktop/Backup_Icon/$date" "$ZIPOUT"
-        Sleep 1
-        rm -rf $ZIPOUT
-    fi
-
-Sleep 1
-# Zip Icon
-cd /Private/tmp
-mv $BUILDICON_NAME $ICON_NAME
-Sleep 1
-if [ -f "$ZIPIN" ];then
-        echo "Zip file"
-        zip -r "$ZIPOUT" "$ICON_NAME"
-    fi
-
-# remove the temporary directory
-rm -rf $ICONS_DIR
-rm -rf $TempDir
-rm -rf $ZIPIN
-
+rm -R $ICONS_DIR
 
 done
+
