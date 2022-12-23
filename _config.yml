@@ -1,5 +1,1 @@
-title: ICNS Builder
-description: Simple macOS app Droplet for create an Icon from PNG file.
-github:
-  repository_url: https://github.com/chris1111/ICNS-Builder
- remote_theme: lewismiddleton/cayman-dark
+theme: jekyll-theme-cayman
