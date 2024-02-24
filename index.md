@@ -4,7 +4,7 @@ layout: default
 
 # ICNS-Builder
 ### Simple macOS app Droplet for create an Icon and Icon Set from PNG file.
-- Credit: [fileicon](https://github.com/mklement0/fileicon)
+- Credit: [fileicon](https://github.com/mklement0/fileicon) Change Icon Folder
 
 - Only .png are accepted
 - The Icon file will be created in the same directory as your PNG and will have the same name.
